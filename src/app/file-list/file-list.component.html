@@ -1,0 +1,26 @@
+<div>
+	<div class="file-header">
+		<div class="file-heading">DropBox Clone</div>
+		<div>
+			<input type="file" (change)="onFileSelected($event)">
+  			<button (click)="onUpload()">Upload</button>
+		</div>
+	</div>
+	<div class="files-list">
+		<div *ngFor="let file of filesList" class="file">
+			<span>
+				{{file.file}} 
+			</span>
+			<span>
+				<button mat-icon-button (click)="onDownload(file)" >
+					<mat-icon>cloud_download</mat-icon>
+				</button>
+				<!-- <mat-menu #menu="matMenu">
+				<button mat-menu-item>
+					Download
+				</button>
+				</mat-menu> -->
+			</span>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,27 @@
+.file-header{
+	display: flex;
+	justify-content: space-between;
+	padding: 10px 50px;
+	.file-heading{
+		font-weight: 500;
+	}
+}
+
+.files-list{
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	
+	.file{
+	
+		max-width: calc(25% - 30px);
+		background: rgb(204, 203, 203);
+		padding: 5px 10px;
+		display: flex;
+		justify-content: space-between;
+		span:nth-child(2){
+			min-width: 20px;
+		}
+
+	}
+}
