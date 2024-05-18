@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FileService } from '../file.service';
 
 @Component({
@@ -7,8 +7,12 @@ import { FileService } from '../file.service';
   styleUrls: ['./file-list.component.scss']
 })
 export class FileListComponent implements OnInit{
+
+  @ViewChild('fileInput') fileInput: ElementRef | undefined;
+
   filesList:any = []
   selectedFile: File | null = null;
+
   constructor(private fileService: FileService){}
   
   ngOnInit(): void {
@@ -45,13 +49,28 @@ export class FileListComponent implements OnInit{
 
   onUpload(): void {
     if (this.selectedFile) {
-      this.fileService.uploadFile(this.selectedFile).subscribe(response => {
-        console.log('File uploaded successfully', response);
-        this.getFilesList()
-      }, error => {
-        console.error('Error uploading file', error);
-      });
+      this.fileService.uploadFile(this.selectedFile).subscribe({
+        next: (response:any) => {
+          this.selectedFile = null;
+          if (this.fileInput) {
+            this.fileInput.nativeElement.value = '';  // Clear the file input
+          }
+          this.getFilesList()
+        },
+        error: (err:any) => {
+          
+        }
+      })
     }
+  }
+
+
+  getFileName(filePath: string): string {
+    let fileName = filePath.split('/').pop() || filePath;
+    if (fileName.length <= 30) {
+      return fileName; // If the file name is short, just return it as is.
+    }
+    return fileName.slice(0,15) + '....' + fileName.slice(-15)
   }
 
 
